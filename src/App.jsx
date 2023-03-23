@@ -1,8 +1,16 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import Layout from './components/layout/Layout';
+import Dashboard from './components/Dashboard';
+
+const queryClient = new QueryClient();
+
 const App = () => {
   return (
-    <main>
-      <h1 className="text-2xl font-bold">Aviation Weather</h1>
-    </main>
+    <QueryClientProvider client={queryClient}>
+      <Layout>
+        <Dashboard stationCode="KSAT" />
+      </Layout>
+    </QueryClientProvider>
   );
 };
 
