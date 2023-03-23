@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { Badge, Card, Metric, Subtitle, Text } from '@tremor/react';
+import { Card, Metric, Text } from '@tremor/react';
 import { ClipboardDocumentIcon } from '@heroicons/react/24/outline';
+import { VALUE_PLACEHOLDER } from '../constants';
 
 const Forecast = ({ isLoading, data }) => {
   const taf = data?.data?.data[0];
@@ -13,8 +14,8 @@ const Forecast = ({ isLoading, data }) => {
 
   return (
     <Card className="flex flex-col gap-2">
-      <Subtitle>Raw</Subtitle>
-      <Metric className="text-xl">{taf ?? '---'}</Metric>
+      <Text>Raw</Text>
+      <Metric className="text-lg">{taf ?? VALUE_PLACEHOLDER}</Metric>
       <div className="mt-4 flex items-center gap-2">
         {!isLoading && (
           <button
