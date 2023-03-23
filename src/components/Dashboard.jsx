@@ -4,11 +4,9 @@ import {
   Button,
   Card,
   Col,
-  Flex,
   Grid,
   Metric,
   Subtitle,
-  Text,
   TextInput,
   Title,
 } from '@tremor/react';
@@ -138,7 +136,7 @@ const Dashboard = () => {
       <Title className="mb-4">Current Conditions</Title>
       <Grid className="mb-10 gap-4" numCols={4}>
         <Col numColSpan={1}>
-          <Card className="flex flex-col gap-4" numColSpan={1}>
+          <Card className="flex flex-col gap-4">
             <Subtitle>Flight Category</Subtitle>
             <Metric>{flightCategoryText}</Metric>
           </Card>
