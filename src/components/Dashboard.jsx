@@ -1,5 +1,5 @@
-import axios from 'axios';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import {
   Button,
   Card,
@@ -10,44 +10,10 @@ import {
   TextInput,
   Title,
 } from '@tremor/react';
-import { useQuery } from '@tanstack/react-query';
 import StationInformation from './StationInformation';
-import { API_KEY, BASE_URL } from '../constants';
 import Observation from './Observation';
 import Forecast from './Forecast';
-
-const getStationData = ({ queryKey }) => {
-  const [_key, { stationCode }] = queryKey;
-
-  return axios.get(`${BASE_URL}/station/${stationCode}`, {
-    headers: {
-      'X-API-Key': API_KEY,
-    },
-  });
-};
-
-const getMetarData = ({ queryKey }) => {
-  const [_key, { decoded, stationCode }] = queryKey;
-
-  return axios.get(
-    `${BASE_URL}/metar/${stationCode}${decoded ? '/decoded' : ''}`,
-    {
-      headers: {
-        'X-API-Key': API_KEY,
-      },
-    }
-  );
-};
-
-const getTafData = ({ queryKey }) => {
-  const [_key, { stationCode }] = queryKey;
-
-  return axios.get(`${BASE_URL}/taf/${stationCode}`, {
-    headers: {
-      'X-API-Key': API_KEY,
-    },
-  });
-};
+import { getStationData, getMetarData, getTafData } from '../api/queries';
 
 const Dashboard = () => {
   const [stationCode, setStationCode] = useState('');

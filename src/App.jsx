@@ -8,7 +8,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <Layout>
-        <Dashboard stationCode="KSAT" />
+        <Dashboard />
       </Layout>
     </QueryClientProvider>
   );
