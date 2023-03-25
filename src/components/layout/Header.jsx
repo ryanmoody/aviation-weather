@@ -1,4 +1,4 @@
-import Logo from '../../assets/logo.svg';
+import Logo from '../../assets/LogoImage.svg';
 import StationForm from '../forms/StationForm';
 
 const Header = () => {
