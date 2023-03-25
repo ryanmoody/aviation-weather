@@ -1,7 +1,8 @@
 import * as Yup from 'yup';
 import { useContext } from 'react';
 import { useFormik } from 'formik';
-import { Button, Text, TextInput, Title } from '@tremor/react';
+import { Button, Text, TextInput } from '@tremor/react';
+import { HiSearch } from 'react-icons/hi';
 import { DashboardContext } from '../../context/DashboardContext';
 
 const StationForm = () => {
@@ -12,9 +13,7 @@ const StationForm = () => {
       stationCode: '',
     },
     validationSchema: Yup.object({
-      stationCode: Yup.string()
-        .max(4, 'Should be 4 characters in length')
-        .required('Required'),
+      stationCode: Yup.string().required('Required'),
     }),
     onSubmit: (values) => {
       setStationCode(values.stationCode);
@@ -24,29 +23,23 @@ const StationForm = () => {
   return (
     <form onSubmit={formik.handleSubmit}>
       <div className="flex flex-col gap-1">
-        <Title htmlFor="stationCode">
-          Station Code<sup>*</sup>
-        </Title>
+        <Text htmlFor="stationCode">Station Code</Text>
         <div className="flex gap-2">
           <TextInput
+            icon={HiSearch}
             id="stationCode"
             name="stationCode"
             onBlur={formik.handleBlur}
             onChange={formik.handleChange}
-            placeholder="Type here..."
+            placeholder="Search..."
             required
             value={formik.values.stationCode}
+            error={formik.errors.stationCode}
           />
           <Button color="black" type="submit">
             Submit
           </Button>
         </div>
-        {formik.touched.stationCode && formik.errors.stationCode ? (
-          <Text className="text-red-500">
-            <sup>*</sup>
-            {formik.errors.stationCode}
-          </Text>
-        ) : null}
       </div>
     </form>
   );

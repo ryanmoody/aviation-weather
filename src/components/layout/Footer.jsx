@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="flex items-center justify-between bg-neutral-100 p-6">
+    <footer className="container mx-auto flex items-center justify-between bg-neutral-100 py-6">
       <span className="text-sm">Copyright &copy; 2023 Ryan Moody</span>
       <a
         className="font-bold"

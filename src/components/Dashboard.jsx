@@ -1,62 +1,39 @@
 import { useContext, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
-import { Col, Grid, Title } from '@tremor/react';
+import { Grid, Title } from '@tremor/react';
+import { DashboardContext } from '../context/DashboardContext';
+import { getObservationData, getForecastData } from '../api/requests';
+import SingleMetric from './cards/SingleMetric';
 import Forecast from './Forecast';
 import Observation from './Observation';
-import SingleMetric from './cards/SingleMetric';
-import StationInformation from './StationInformation';
-import StationForm from './forms/StationForm';
-import { DashboardContext } from '../context/DashboardContext';
-import { getStationData, getMetarData, getTafData } from '../api/queries';
+import Station from './Station';
 
 const Dashboard = () => {
   const { stationCode } = useContext(DashboardContext);
 
   const {
-    data: stationData,
-    isLoading: isStationDataLoading,
-    refetch: fetchStationData,
+    data: observationData,
+    isLoading: isObservationLoading,
+    refetch: fetchObservation,
   } = useQuery({
-    queryKey: ['station', { stationCode }],
-    queryFn: getStationData,
+    queryKey: ['observation', { decoded: true, stationCode }],
+    queryFn: getObservationData,
     enabled: false,
   });
 
   const {
-    data: metarData,
-    isLoading: isMetarDataLoading,
-    refetch: fetchMetarData,
+    data: forecastData,
+    isLoading: isForecastLoading,
+    refetch: fetchForecast,
   } = useQuery({
-    queryKey: ['metar-decoded', { stationCode }],
-    queryFn: getMetarData,
-    enabled: false,
-  });
-
-  const {
-    data: metarDecodedData,
-    isLoading: isDecodedMetarDataLoading,
-    refetch: fetchDecodedMetarData,
-  } = useQuery({
-    queryKey: ['metar', { decoded: true, stationCode }],
-    queryFn: getMetarData,
-    enabled: false,
-  });
-
-  const {
-    data: tafData,
-    isLoading: isTafDataLoading,
-    refetch: fetchTafData,
-  } = useQuery({
-    queryKey: ['taf', { stationCode }],
-    queryFn: getTafData,
+    queryKey: ['forecast', { decoded: true, stationCode }],
+    queryFn: getForecastData,
     enabled: false,
   });
 
   const handleSubmit = () => {
-    fetchStationData();
-    fetchMetarData();
-    fetchDecodedMetarData();
-    fetchTafData();
+    fetchObservation();
+    fetchForecast();
   };
 
   useEffect(() => {
@@ -65,36 +42,35 @@ const Dashboard = () => {
     }
   }, [stationCode]);
 
-  const temperature = metarDecodedData?.data?.data[0]?.temperature?.celsius;
-  const flightCategory = metarDecodedData?.data?.data[0]?.flight_category;
-  const humidity = metarDecodedData?.data?.data[0]?.humidity?.percent;
+  const observation = observationData?.data?.data[0];
+  const forecast = forecastData?.data?.data[0];
+
+  const temperature = observation?.temperature?.celsius;
+  const flightCategory = observation?.flight_category;
+  const humidity = observation?.humidity?.percent;
 
   return (
     <div className="container mx-auto flex flex-col">
-      <div className="mb-16 flex flex-row items-end justify-between">
-        <StationForm />
-        <StationInformation
-          isLoading={isStationDataLoading}
-          data={stationData}
+      <div className="mb-10 flex flex-row items-end justify-between gap-10">
+        <Station
+          isLoading={isObservationLoading}
+          data={observation}
           stationCode={stationCode}
         />
       </div>
+
       <Title className="mb-4">Current Conditions</Title>
-      <Grid className="mb-10 gap-4" numCols={4}>
-        <Col numColSpan={1}>
-          <SingleMetric title="Flight Category" metric={flightCategory} />
-        </Col>
+      <Grid className="mb-10 gap-4" numCols={1} numColsLg={3}>
+        <SingleMetric title="Flight Rules" metric={flightCategory} />
         <SingleMetric title={`Temperature (\u00B0C)`} metric={temperature} />
         <SingleMetric title={`Humidity (%)`} metric={humidity} />
       </Grid>
-      <section className="mb-10">
-        <Title className="mb-4">METAR</Title>
-        <Observation isLoading={isMetarDataLoading} data={metarData} />
-      </section>
-      <section className="mb-10">
-        <Title className="mb-4">TAF</Title>
-        <Forecast isLoading={isTafDataLoading} data={tafData} />
-      </section>
+
+      <Title className="mb-4">METAR</Title>
+      <Observation isLoading={isObservationLoading} observation={observation} />
+
+      <Title className="mb-4">TAF</Title>
+      <Forecast isLoading={isForecastLoading} forecast={forecast} />
     </div>
   );
 };

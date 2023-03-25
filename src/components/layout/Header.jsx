@@ -1,9 +1,11 @@
-import Logo from '../../assets/Logo.svg';
+import Logo from '../../assets/logo.svg';
+import StationForm from '../forms/StationForm';
 
 const Header = () => {
   return (
-    <header className="mb-10 flex items-center justify-start bg-neutral-100 p-4">
-      <img className="h-100" height={84} width={152} src={Logo} />
+    <header className="container mx-auto mb-10 flex flex-col gap-12 bg-neutral-100 py-4 md:flex-row md:items-end md:justify-between">
+      <img height={84} width={152} src={Logo} />
+      <StationForm />
     </header>
   );
 };
