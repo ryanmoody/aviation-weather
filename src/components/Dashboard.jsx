@@ -48,6 +48,7 @@ const Dashboard = () => {
   const temperature = observation?.temperature?.celsius;
   const flightCategory = observation?.flight_category;
   const humidity = observation?.humidity?.percent;
+  const visibility = observation?.visibility?.miles;
 
   return (
     <div className="container mx-auto flex flex-col">
@@ -60,10 +61,11 @@ const Dashboard = () => {
       </div>
 
       <Title className="mb-4">Current Conditions</Title>
-      <Grid className="mb-10 gap-4" numCols={1} numColsLg={3}>
+      <Grid className="mb-10 gap-4" numCols={1} numColsLg={4}>
         <SingleMetric title="Flight Rules" metric={flightCategory} />
         <SingleMetric title={`Temperature (\u00B0C)`} metric={temperature} />
         <SingleMetric title={`Humidity (%)`} metric={humidity} />
+        <SingleMetric title={`Visibility (Miles)`} metric={visibility} />
       </Grid>
 
       <Title className="mb-4">METAR</Title>
