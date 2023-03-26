@@ -1,6 +1,6 @@
 const Footer = () => {
   return (
-    <footer className="container mx-auto flex items-center justify-between bg-neutral-100 py-6">
+    <footer className="container mx-auto flex flex-col-reverse items-center justify-between gap-2 bg-neutral-100 py-6 md:flex-row">
       <span className="text-sm">Copyright &copy; 2023 Ryan Moody</span>
       <a
         className="font-bold"

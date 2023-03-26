@@ -4,8 +4,9 @@ import { HiOutlineClipboardCopy } from 'react-icons/hi';
 import { VALUE_PLACEHOLDER } from '../constants';
 
 const Forecast = ({ isLoading, forecast }) => {
-  const TAF = forecast?.raw_text;
   const [isCopied, setIsCopied] = useState(false);
+
+  const TAF = forecast?.raw_text;
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(TAF);

@@ -4,8 +4,9 @@ import { HiOutlineClipboardCopy } from 'react-icons/hi';
 import { VALUE_PLACEHOLDER } from '../constants';
 
 const Observation = ({ isLoading, observation }) => {
-  const METAR = observation?.raw_text;
   const [isCopied, setIsCopied] = useState(false);
+
+  const METAR = observation?.raw_text;
 
   const handleCopyToClipboard = () => {
     navigator.clipboard.writeText(METAR);

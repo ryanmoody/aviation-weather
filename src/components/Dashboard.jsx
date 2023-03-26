@@ -1,49 +1,22 @@
-import { useContext, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useContext } from 'react';
 import { Grid, Title } from '@tremor/react';
 import { DashboardContext } from '../context/DashboardContext';
-import { getObservationData, getForecastData } from '../api/requests';
 import SingleMetric from './cards/SingleMetric';
 import Forecast from './Forecast';
 import Observation from './Observation';
 import Station from './Station';
 
 const Dashboard = () => {
-  const { stationCode } = useContext(DashboardContext);
-
   const {
-    data: observationData,
-    isLoading: isObservationLoading,
-    refetch: fetchObservation,
-  } = useQuery({
-    queryKey: ['observation', { decoded: true, stationCode }],
-    queryFn: getObservationData,
-    enabled: false,
-  });
+    isForecastLoading,
+    isObservationLoading,
+    forecastData,
+    observationData,
+    stationCode,
+  } = useContext(DashboardContext);
 
-  const {
-    data: forecastData,
-    isLoading: isForecastLoading,
-    refetch: fetchForecast,
-  } = useQuery({
-    queryKey: ['forecast', { decoded: true, stationCode }],
-    queryFn: getForecastData,
-    enabled: false,
-  });
-
-  const handleSubmit = () => {
-    fetchObservation();
-    fetchForecast();
-  };
-
-  useEffect(() => {
-    if (stationCode) {
-      handleSubmit();
-    }
-  }, [stationCode]);
-
-  const observation = observationData?.data?.data[0];
-  const forecast = forecastData?.data?.data[0];
+  const observation = observationData?.data[0];
+  const forecast = forecastData?.data[0];
 
   const temperature = observation?.temperature?.celsius;
   const flightCategory = observation?.flight_category;
